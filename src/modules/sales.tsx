@@ -108,39 +108,6 @@ export const Sales: React.FC = () => {
     })
   }
 
-  const handleAddItem = () => {
-    const newItem = {
-      description: '',
-      quantity: 1,
-      unitPrice: 0,
-      total: 0
-    }
-    setForm({
-      ...form,
-      items: [...form.items, newItem]
-    })
-  }
-
-  const handleRemoveItem = (index: number) => {
-    const newItems = [...form.items]
-    newItems.splice(index, 1)
-    setForm({ ...form, items: newItems })
-  }
-
-  const handleItemChange = (index: number, field: keyof typeof newItem, value: any) => {
-    const newItems = [...form.items]
-    newItems[index] = { ...newItems[index], [field]: value }
-    setForm({ ...form, items: newItems })
-  }
-
-  const handleCalculate = () => {
-    const total = form.items.reduce((sum, item) => sum + item.total, 0)
-    setForm({
-      ...form,
-      total
-    })
-  }
-
   const handleSave = async () => {
     try {
       const saleData: any = {
@@ -333,8 +300,8 @@ export const Sales: React.FC = () => {
               >
                 {editingId ? 'Update' : 'Record Sale'}
               </button>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       )}
 
