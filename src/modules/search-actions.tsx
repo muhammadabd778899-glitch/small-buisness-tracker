@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useBusinessStore } from '../store/business'
 
-export const GlobalSearchAndQuickActions: React.FC = () => {
+export const SearchAndQuickActions: React.FC = () => {
   const { clients, products, invoices, orders, payments, bills, tasks } = useBusinessStore()
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<any[]>([])
@@ -93,7 +93,7 @@ export const GlobalSearchAndQuickActions: React.FC = () => {
         <h3 className="text-sm font-medium text-[var(--muted)] mb-3">Global Search</h3>
         <div className="relative">
           <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--muted)]" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M21 21l-3.8-3.8c-.3-.3-.3-.8 0-.9l3.1-3.1c.2-.2.2-.5 0-.7l-5.3-5.3c-.2-.2-.5-.2-.7 0l-3 3c-.2.2-.5.2-.7 0L3 3c-.5.5-.5.9 0 1.4l1.7 1.7c.2.2.5.2.7 0l5.3-5.3c.2-.2.2-.5 0-.7l-3.8-3.8c-.3-.3-.8-.3-1.1 0zM3 14l1.4 1.4c.2.2.5.2.7 0l3.1-3.1c.2-.2.2-.5 0-.7l-1.4-1.4c-.2-.2-.2-.5 0-.7l1.4-1.4c.2-.2.5-.2.7 0L5 13c.3.3.8.3 1.1 0l3.1 3.1c.2.2.5.2.7 0l1.4 1.4c.2.2.2.5 0 .7z"/>
+            <path d="M21 21l-3.8-3.8c-.3-.3-.3-.8 0-.9l3.1-3.1c.2-.2.2-.5 0-.7l-5.3-5.3c-.2-.2-.5-.2-.7 0l-3 3c-.2.2-.5-.2-.7 0L3 3c-.5.5-.5.9 0 1.4l1.7 1.7c.2.2.5.2.7 0l5.3-5.3c.2-.2.2-.5 0-.7l-3.8-3.8c-.3-.3-.8-.3-1.1 0zM3 14l1.4 1.4c.2.2.5.2.7 0l3.1-3.1c.2-.2.2-.5 0-.7l-1.4-1.4c-.2-.2-.2-.5 0-.7l1.4-1.4c.2-.2.5-.2.7 0L5 13c.3.3.8.3 1.1 0l3.1 3.1c.2.2.5.2.7 0l1.4 1.4c.2.2.2.5 0 .7z"/>
           </svg>
           <input
             type="text"

@@ -118,21 +118,22 @@ export const BillTrackerCalendar: React.FC = () => {
       <div className="bg-[var(--card)] rounded-lg p-6 border border-[var(--border)] mb-8">
         <h3 className="text-sm font-medium text-[var(--muted)] mb-4">Bills Overview</h3>
         
-        {/* Bills status breakdown */}
+        {/* Bills status breakdown - using map instead of forEach */}
         <div className="grid grid-cols-3 gap-3 mb-4">
-          ['pending', 'paid', 'overdue'].forEach(status => {
+          {['pending', 'paid', 'overdue'].map(status => {
             const count = bills.filter(b => b.status === status).length
             if (count > 0) {
               const bgClass = status === 'paid' ? 'bg-[var(--success)]' : status === 'overdue' ? 'bg-[var(--danger)]' : 'bg-[var(--warning)]'
               const textClass = status === 'paid' ? 'text-[var(--success)]' : status === 'overdue' ? 'text-[var(--danger)]' : 'text-[var(--warning)]'
-              ;(document.getElementById(`bill-${status}`) as HTMLElement | null)?.innerHTML = `
-                <div id="bill-${status}" className="p-2 rounded ${bgClass}">
-                  <span className="text-${textClass} font-medium">${status}: ${count}</span>
+              return (
+                <div key={status} className={`p-2 rounded ${bgClass}`}>
+                  <span className={textClass} font-medium>{status}: {count}</span>
                 </div>
-              `
+              )
             }
-          })
-        }
+            return null
+          })}
+        </div>
       </div>
 
       {/* Add/Edit Bill Form */}
@@ -286,9 +287,7 @@ export const BillTrackerCalendar: React.FC = () => {
         </div>
         <div className="bg-[var(--card)] rounded-lg p-4 border border-[var(--border)]">
           <p className="text-sm text-[var(--muted)]">Total</p>
-          <p className="text-2xl font-bold">
-            {bills.reduce((sum, b) => sum + b.amount, 0).toLocaleString()}
-          </p>
+          <p className="text-2xl font-bold">{bills.reduce((sum, b) => sum + b.amount, 0).toLocaleString()}</p>
         </div>
       </div>
     </div>

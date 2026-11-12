@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { create } from 'zustand'
 import { db } from '../lib/database'
 import { 
   BusinessSettings, 
@@ -919,4 +919,4 @@ const useBusinessStore = create<BusinessState>((set, get) => ({
   },
 }))
 
-export default useBusinessStore
+export { useBusinessStore }
