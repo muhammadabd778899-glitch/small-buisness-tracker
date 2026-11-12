@@ -13,6 +13,38 @@ export const Clients: React.FC = () => {
     .sort((a, b) => b.totalSales - a.totalSales)
     .slice(0, 5)
 
+  // Render client rows
+  const clientRows = clients
+    .sort((a, b) => b.totalSales - a.totalSales)
+    .map((client) => {
+      const outstanding = client.outstandingBalance || 0
+      return (
+        <tr key={client.id} className="hover:bg-[var(--soft-bg)]">
+          <td className="px-6 py-4 whitespace-nowrap">
+            {client.name}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap">
+            {client.company || 'N/A'}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap">
+            {client.email}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap">
+            {client.phone}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap">
+            {client.totalOrders}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap">
+            {client.totalSales.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </td>
+          <td className="px-6 py-4 whitespace-nowrap">
+            {outstanding.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </td>
+        </tr>
+      )
+    })
+
   return (
     <div className="pt-8">
       <h2 className="text-2xl font-bold mb-6">Client CRM</h2>
@@ -32,9 +64,11 @@ export const Clients: React.FC = () => {
         <div className="bg-[var(--card)] rounded-lg p-6 border border-[var(--border)]">
           <h3 className="text-sm font-medium text-[var(--muted)] mb-2">Outstanding Balance</h3>
           <p className="text-2xl font-bold text-[var(--danger)]">
-            {businessData?.businessSettings?.currencySymbol || '$'}{businessData?.businessSettings?.currencyPrecision !== undefined 
-              ? (businessData?.businessSettings?.currencyPrecision || 2)
-              : 2}
+            ${businessData?.businessSettings?.currencySymbol || '$'}{
+              businessData?.businessSettings?.currencyPrecision !== undefined
+                ? (businessData?.businessSettings?.currencyPrecision || 2)
+                : 2
+            }
           </p>
         </div>
 
@@ -61,36 +95,7 @@ export const Clients: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {clients
-                .sort((a, b) => b.totalSales - a.totalSales)
-                .map((client) => {
-                  const outstanding = client.outstandingBalance || 0
-                  return (
-                    <tr key={client.id} className="hover:bg-[var(--soft-bg)]">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {client.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {client.company || 'N/A'}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {client.email}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {client.phone}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {client.totalOrders}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {client.totalSales.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {outstanding.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                      </td>
-                    </tr>
-                  )
-                )}
+              {clientRows}
             </tbody>
           </table>
         </div>

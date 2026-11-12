@@ -12,11 +12,10 @@ import { Reports } from './modules/reports'
 import { SearchAndQuickActions } from './modules/search-actions'
 import { BackupRestore } from './modules/backup-restore'
 import { useBusinessStore } from './store/business'
-import { useDemoStore } from './store/demo'
 
 export const App: React.FC = () => {
-  const { isDemo, businessData, loadDemoData, clearDemoData, resetBusiness } = useDemoStore()
-  const { isLoaded, initializeBusiness, settings } = useBusinessStore()
+  const { isDemo, businessData, loadDemoData, clearDemoData, resetBusiness, isLoaded, initializeBusiness, setIsDemo } = useBusinessStore()
+  const { settings } = useBusinessStore()
 
   // Initialize business data on mount
   React.useEffect(() => {
