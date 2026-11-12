@@ -64,11 +64,9 @@ export const Clients: React.FC = () => {
         <div className="bg-[var(--card)] rounded-lg p-6 border border-[var(--border)]">
           <h3 className="text-sm font-medium text-[var(--muted)] mb-2">Outstanding Balance</h3>
           <p className="text-2xl font-bold text-[var(--danger)]">
-            ${businessData?.businessSettings?.currencySymbol || '$'}{
-              businessData?.businessSettings?.currencyPrecision !== undefined
-                ? (businessData?.businessSettings?.currencyPrecision || 2)
-                : 2
-            }
+            ${businessData?.businessSettings?.currencySymbol || '$'}{businessData?.businessSettings?.currencyPrecision !== undefined
+              ? (businessData?.businessSettings?.currencyPrecision || 2)
+              : 2}
           </p>
         </div>
 

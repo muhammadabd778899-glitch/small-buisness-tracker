@@ -147,7 +147,7 @@ export const PricingCalculator: React.FC = () => {
                 onChange={handleInputChange}
                 className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
               />
-            </div>
+            />
           </div>
         </form>
       </div>
@@ -159,11 +159,11 @@ export const PricingCalculator: React.FC = () => {
         <div className="grid grid-cols-2 gap-4 mb-4">
           <div>
             <p className="text-sm text-[var(--muted)]">Subtotal</p>
-            <p className="text-2xl font-bold text-[var(--accent)]">${subtotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
+            <p className="text-2xl font-bold text-[var(--accent)]">{subtotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
           </div>
           <div>
             <p className="text-sm text-[var(--muted)]">Profit</p>
-            <p className="text-2xl font-bold text-[var(--success)]">${profitAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
+            <p className="text-2xl font-bold text-[var(--success)]">{profitAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
           </div>
         </div>
 
@@ -174,7 +174,7 @@ export const PricingCalculator: React.FC = () => {
           </div>
           <div>
             <p className="text-sm text-[var(--muted)]">Total</p>
-            <p className="text-3xl font-bold text-[var(--danger)]">${total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
+            <p className="text-3xl font-bold text-[var(--danger)]">{total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
           </div>
         </div>
 
