@@ -1,0 +1,106 @@
+src/modules/bill-tracker-calendar.tsx(114,6): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/modules/bill-tracker-calendar.tsx(123,58): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/bill-tracker-calendar.tsx(124,13): error TS1109: Expression expected.
+src/modules/bill-tracker-calendar.tsx(124,43): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/bill-tracker-calendar.tsx(125,23): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/bill-tracker-calendar.tsx(126,15): error TS1109: Expression expected.
+src/modules/bill-tracker-calendar.tsx(133,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/bill-tracker-calendar.tsx(134,11): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/bill-tracker-calendar.tsx(135,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/bill-tracker-calendar.tsx(296,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/bill-tracker-calendar.tsx(296,2): error TS1005: '</' expected.
+src/modules/clients.tsx(93,17): error TS1128: Declaration or statement expected.
+src/modules/expense-tracker.tsx(170,9): error TS2657: JSX expressions must have one parent element.
+src/modules/expense-tracker.tsx(171,154): error TS1003: Identifier expected.
+src/modules/expense-tracker.tsx(171,155): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/expense-tracker.tsx(171,156): error TS1002: Unterminated string literal.
+src/modules/expense-tracker.tsx(173,13): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/modules/expense-tracker.tsx(354,9): error TS1005: ')' expected.
+src/modules/expense-tracker.tsx(356,5): error TS1128: Declaration or statement expected.
+src/modules/expense-tracker.tsx(357,3): error TS1109: Expression expected.
+src/modules/expense-tracker.tsx(358,1): error TS1128: Declaration or statement expected.
+src/modules/income-tracker.tsx(176,9): error TS2657: JSX expressions must have one parent element.
+src/modules/income-tracker.tsx(177,154): error TS1003: Identifier expected.
+src/modules/income-tracker.tsx(177,155): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/income-tracker.tsx(177,156): error TS1002: Unterminated string literal.
+src/modules/income-tracker.tsx(179,13): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/modules/income-tracker.tsx(337,9): error TS1005: ')' expected.
+src/modules/income-tracker.tsx(339,5): error TS1128: Declaration or statement expected.
+src/modules/income-tracker.tsx(340,3): error TS1109: Expression expected.
+src/modules/income-tracker.tsx(341,1): error TS1128: Declaration or statement expected.
+src/modules/invoice-generator.tsx(246,6): error TS1005: ',' expected.
+src/modules/order-management.tsx(178,6): error TS17008: JSX element 'div' has no corresponding closing tag.
+src/modules/order-management.tsx(186,100): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/order-management.tsx(187,13): error TS1109: Expression expected.
+src/modules/order-management.tsx(187,44): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/order-management.tsx(188,23): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/order-management.tsx(189,15): error TS1109: Expression expected.
+src/modules/order-management.tsx(196,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/order-management.tsx(197,11): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/order-management.tsx(198,9): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/order-management.tsx(221,19): error TS1005: ',' expected.
+src/modules/order-management.tsx(305,29): error TS1005: ',' expected.
+src/modules/order-management.tsx(417,1): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/order-management.tsx(417,2): error TS1005: '</' expected.
+src/modules/overview.tsx(79,59): error TS1109: Expression expected.
+src/modules/overview.tsx(79,62): error TS1003: Identifier expected.
+src/modules/overview.tsx(79,72): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/overview.tsx(79,75): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/overview.tsx(80,61): error TS1109: Expression expected.
+src/modules/overview.tsx(80,64): error TS1003: Identifier expected.
+src/modules/overview.tsx(80,74): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/overview.tsx(80,77): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/overview.tsx(97,46): error TS1109: Expression expected.
+src/modules/overview.tsx(97,49): error TS1003: Identifier expected.
+src/modules/overview.tsx(97,59): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/overview.tsx(97,78): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/overview.tsx(136,55): error TS1109: Expression expected.
+src/modules/overview.tsx(136,58): error TS1003: Identifier expected.
+src/modules/overview.tsx(136,68): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/overview.tsx(136,71): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/payments-refunds.tsx(329,11): error TS1005: '}' expected.
+src/modules/payments-refunds.tsx(338,10): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/pricing-calculator.tsx(169,60): error TS1138: Parameter declaration expected.
+src/modules/pricing-calculator.tsx(170,12): error TS1005: ':' expected.
+src/modules/pricing-calculator.tsx(170,14): error TS1136: Property assignment expected.
+src/modules/pricing-calculator.tsx(177,24): error TS1005: '(' expected.
+src/modules/pricing-calculator.tsx(177,28): error TS1005: ',' expected.
+src/modules/pricing-calculator.tsx(177,29): error TS1109: Expression expected.
+src/modules/pricing-calculator.tsx(178,18): error TS1005: ';' expected.
+src/modules/pricing-calculator.tsx(181,7): error TS1472: 'catch' or 'finally' expected.
+src/modules/pricing-calculator.tsx(188,7): error TS1005: ',' expected.
+src/modules/pricing-calculator.tsx(377,21): error TS1005: ',' expected.
+src/modules/pricing-calculator.tsx(501,1): error TS1128: Declaration or statement expected.
+src/modules/reports.tsx(89,5): error TS2657: JSX expressions must have one parent element.
+src/modules/reports.tsx(103,25): error TS1005: '}' expected.
+src/modules/reports.tsx(103,65): error TS1005: '...' expected.
+src/modules/reports.tsx(103,170): error TS1003: Identifier expected.
+src/modules/reports.tsx(103,171): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/reports.tsx(105,13): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/modules/reports.tsx(113,25): error TS1005: '}' expected.
+src/modules/reports.tsx(113,65): error TS1005: '...' expected.
+src/modules/reports.tsx(113,169): error TS1003: Identifier expected.
+src/modules/reports.tsx(113,170): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/reports.tsx(115,13): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/modules/reports.tsx(123,25): error TS1005: '}' expected.
+src/modules/reports.tsx(123,65): error TS1005: '...' expected.
+src/modules/reports.tsx(123,174): error TS1003: Identifier expected.
+src/modules/reports.tsx(123,175): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/reports.tsx(125,13): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/modules/reports.tsx(366,2): error TS1005: ')' expected.
+src/modules/reports.tsx(366,2): error TS1160: Unterminated template literal.
+src/modules/sales.tsx(84,17): error TS1128: Declaration or statement expected.
+src/modules/sales.tsx(117,102): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/sales.tsx(118,15): error TS1109: Expression expected.
+src/modules/sales.tsx(118,46): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/sales.tsx(119,25): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/sales.tsx(120,17): error TS1109: Expression expected.
+src/modules/sales.tsx(126,15): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/sales.tsx(127,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/sales.tsx(135,60): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/sales.tsx(136,15): error TS1109: Expression expected.
+src/modules/sales.tsx(136,48): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/sales.tsx(137,25): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/modules/sales.tsx(138,17): error TS1109: Expression expected.
+src/modules/sales.tsx(144,15): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/modules/sales.tsx(145,13): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
