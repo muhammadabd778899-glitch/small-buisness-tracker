@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useBusinessStore } from '../store/business'
 import { db } from '../lib/database'
-import { saveAs } from 'file-saver'
+import Papa from 'papaparse'
 
 export const BackupRestore: React.FC = () => {
   const { isDemo, businessData, isDataLoaded } = useBusinessStore()
@@ -44,7 +44,13 @@ export const BackupRestore: React.FC = () => {
       
       // Trigger download
       const blob = new Blob([jsonString], { type: 'application/json' })
-      saveAs(blob, `small-business-backup-${new Date().toISOString().slice(0, 10)}.json`)
+      const link = document.createElement('a')
+        link.href = URL.createObjectURL(blob)
+        link.download = `small-business-backup-${new Date().toISOString().slice(0, 10)}.json`
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        URL.revokeObjectURL(link.href)
       
       return jsonString
     } catch (error) {
@@ -233,7 +239,7 @@ export const BackupRestore: React.FC = () => {
                 const reader = new FileReader()
                 reader.onload = (e) => {
                   const text = e.target.result
-                  const result = PapaParse.parse(text as string, { header: true })
+                  const result = Papa.parse(text as string, { header: true })
                   // Handle CSV import with field mapping
                   console.log('CSV data:', result.data)
                 }

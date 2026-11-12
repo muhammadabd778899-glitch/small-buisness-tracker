@@ -95,37 +95,37 @@ export const Reports: React.FC = () => {
         <div className="grid grid-cols-6 gap-2">
           <button
             onClick={() => setPeriod('this-month')}
-            className={`px-4 py-2 rounded text-sm font-medium ${period === 'this-month' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}}>
+            className={`px-4 py-2 rounded text-sm font-medium ${period === 'this-month' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}`}>
             This Month
           </button>
           <button
             onClick={() => setPeriod('last-month')}
-            className={`px-4 py-2 rounded text-sm font-medium ${period === 'last-month' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}}>
+            className={`px-4 py-2 rounded text-sm font-medium ${period === 'last-month' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}`}>
             Last Month
           </button>
           <button
             onClick={() => setPeriod('this-quarter')}
-            className={`px-4 py-2 rounded text-sm font-medium ${period === 'this-quarter' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}}>
+            className={`px-4 py-2 rounded text-sm font-medium ${period === 'this-quarter' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}`}>
             This Quarter
           </button>
           <button
             onClick={() => setPeriod('this-year')}
-            className={`px-4 py-2 rounded text-sm font-medium ${period === 'this-year' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}}>
+            className={`px-4 py-2 rounded text-sm font-medium ${period === 'this-year' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}`}>
             This Year
           </button>
           <button
             onClick={() => setPeriod('last-year')}
-            className={`px-4 py-2 rounded text-sm font-medium ${period === 'last-year' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}}>
+            className={`px-4 py-2 rounded text-sm font-medium ${period === 'last-year' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}`}>
             Last Year
           </button>
           <button
             onClick={() => setPeriod('last-12-months')}
-            className={`px-4 py-2 rounded text-sm font-medium ${period === 'last-12-months' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}}>
+            className={`px-4 py-2 rounded text-sm font-medium ${period === 'last-12-months' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}`}>
             Last 12 Months
           </button>
           <button
             onClick={() => setPeriod('custom')}
-            className={`px-4 py-2 rounded text-sm font-medium ${period === 'custom' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}}>
+            className={`px-4 py-2 rounded text-sm font-medium ${period === 'custom' ? 'bg-[var(--accent)] text-white' : 'text-[var(--fg)] hover:bg-[var(--soft-bg)]'}`}>
             Custom Range
           </button>
         </div>
@@ -191,8 +191,8 @@ export const Reports: React.FC = () => {
               <YAxis stroke="#848484" />
               <Tooltip />
               <Legend />
-              <Bar dataKey="revenue" name="Revenue" fill={var(--accent)} />
-              <Bar dataKey="expenses" name="Expenses" fill={var(--danger)} />
+              <Bar dataKey="revenue" name="Revenue" fill="var(--accent)" />
+              <Bar dataKey="expenses" name="Expenses" fill="var(--danger)" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -209,7 +209,7 @@ export const Reports: React.FC = () => {
                 <LegendItem cursor="#848484" />
               </Legend>
               <Area dataKey="profit" fill="var(--accent)" />
-              <Line dataKey="profit" stroke={var(--accent)} strokeWidth={2} />
+              <Line dataKey="profit" stroke="var(--accent)" strokeWidth={2} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -319,7 +319,7 @@ export const Reports: React.FC = () => {
         {/* Inventory Report */}
         <div className="bg-[var(--card)] rounded-lg p-6 border border-[var(--border)]">
           <h3 className="text-sm font-medium text-[var(--muted)] mb-4">Inventory Report</h3>
-          <p className="text-sm text-[var(--muted)]>
+          <p className="text-sm text-[var(--muted)]">
             Current stock levels, movements, valuation and reorder analysis.
           </p>
         </div>
@@ -327,7 +327,7 @@ export const Reports: React.FC = () => {
         {/* Client Report */}
         <div className="bg-[var(--card)] rounded-lg p-6 border border-[var(--border)]">
           <h3 className="text-sm font-medium text-[var(--muted)] mb-4">Client Report</h3>
-          <p className="text-sm text-[var(--muted)]>
+          <p className="text-sm text-[var(--muted)]">
             Client lifetime value, order history and outstanding balances.
           </p>
         </div>
@@ -335,7 +335,7 @@ export const Reports: React.FC = () => {
         {/* Invoice Report */}
         <div className="bg-[var(--card)] rounded-lg p-6 border border-[var(--border)]">
           <h3 className="text-sm font-medium text-[var(--muted)] mb-4">Invoice Report</h3>
-          <p className="text-sm text-[var(--muted)]>
+          <p className="text-sm text-[var(--muted)]">
             Invoice status, payment status and aging analysis.
           </p>
         </div>
@@ -343,7 +343,7 @@ export const Reports: React.FC = () => {
         {/* Custom metrics report */}
         <div className="bg-[var(--card)] rounded-lg p-6 border border-[var(--border)]">
           <h3 className="text-sm font-medium text-[var(--muted)] mb-4">Custom Metrics Report</h3>
-          <p className="text-sm text-[var(--muted)]>
+          <p className="text-sm text-[var(--muted)]">
             Define custom KPIs and metrics for specific business needs.
           </p>
         </div>

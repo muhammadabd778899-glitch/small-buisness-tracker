@@ -1,5 +1,5 @@
 import React from 'react'
-import { useBusinessStore } from '../store/business'
+import { useBusinessStore } from '../../store/business'
 
 export const Navigation: React.FC = () => {
   const { isDemo, businessData, navigateTo } = useBusinessStore()

@@ -3,7 +3,7 @@ import { useBusinessStore } from '../store/business'
 import { useNavigate } from 'react-router-dom'
 import { Invoice, InvoiceLineItem } from '../lib/database'
 import { jsPDF } from 'jspdf'
-import autoTable from 'auto-table'
+
 
 export const InvoiceGenerator: React.FC = () => {
   const navigate = useNavigate()
@@ -243,7 +243,7 @@ export const InvoiceGenerator: React.FC = () => {
       item.quantity.toString(),
       `${currencySymbol}${item.unitPrice.toFixed(2)}`,
       `${currencySymbol}${item.totalPrice.toFixed(2)}`
-    ]]) || []
+    ]) || []
     
     // Add totals row
     rows.push([ 'Total', '', `${currencySymbol}${invoice.subtotal.toFixed(2)}`, `${currencySymbol}${invoice.total.toFixed(2)}` ])
@@ -258,7 +258,7 @@ export const InvoiceGenerator: React.FC = () => {
     })
     
     // Summary section
-    const finalY = (doc as any).lastAutoTable.finalY + 10
+    const finalY = yPos + 10
     
     doc.setFontSize(10)
     doc.setTextColor(41, 41, 41)

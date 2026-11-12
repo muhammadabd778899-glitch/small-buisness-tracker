@@ -174,7 +174,7 @@ export const IncomeTracker: React.FC = () => {
       {/* Form when visible */}
       {showForm && (
         <div className="bg-[var(--card)] rounded-lg p-6 border border-[var(--border)] max-w-2xl mx-auto">
-          <h3 className={editingId ? 'text-sm font-medium text-[var(--dark)] mb-3 text-update' : 'text-sm font-medium text-[var(--muted)] mb-3 text-add'}">
+          <h3 className="text-sm font-medium text-[var(--muted)] mb-3">
             {editingId ? 'Edit Income Transaction' : 'Add Income Transaction'}
           </h3>
 

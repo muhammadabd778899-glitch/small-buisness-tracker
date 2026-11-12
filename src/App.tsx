@@ -1,7 +1,6 @@
 import React from 'react'
 import { Container } from './components/ui/layout'
-import { Navigation } from './components/ui/navigation'
-import { Route, Routes, useRoutes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { Overview } from './modules/overview'
 import { Finance } from './modules/finance'
 import { Sales } from './modules/sales'
@@ -9,14 +8,12 @@ import { Products } from './modules/products'
 import { Clients } from './modules/clients'
 import { Planning } from './modules/planning'
 import { Reports } from './modules/reports'
-import { SearchAndQuickActions } from './modules/search-actions'
+import { GlobalSearchAndQuickActions } from './modules/search-actions'
 import { BackupRestore } from './modules/backup-restore'
 import { useBusinessStore } from './store/business'
-import { useDemoStore } from './store/demo'
 
 export const App: React.FC = () => {
-  const { isDemo, businessData, loadDemoData, clearDemoData, resetBusiness } = useDemoStore()
-  const { isLoaded, initializeBusiness, settings } = useBusinessStore()
+  const { isLoaded, initializeBusiness } = useBusinessStore()
 
   // Initialize business data on mount
   React.useEffect(() => {
@@ -24,24 +21,6 @@ export const App: React.FC = () => {
       initializeBusiness()
     }
   }, [isLoaded])
-
-  // If demo mode is selected, load demo data
-  React.useEffect(() => {
-    if (isDemo && businessData?.businessName !== 'Orange & Oak Studio') {
-      loadDemoData()
-    }
-  }, [isDemo, businessData?.businessName])
-
-  // Define routes
-  const routes = useRoutes([
-    { path: '/', element: <Overview /> },
-    { path: '/finance', element: <Finance /> },
-    { path: '/sales', element: <Sales /> },
-    { path: '/products', element: <Products /> },
-    { path: '/clients', element: <Clients /> },
-    { path: '/planning', element: <Planning /> },
-    { path: '/reports', element: <Reports /> },
-  ])
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--fg)]">
@@ -78,7 +57,7 @@ export const App: React.FC = () => {
               </svg>
             </button>
             <button className="btn btn-ghost text-sm hover:text-[var(--accent)] transition-colors" title="Demo">
-              {isDemo ? 'Live' : 'Demo'}
+              Demo
             </button>
           </div>
         </div>
@@ -99,7 +78,7 @@ export const App: React.FC = () => {
           </Routes>
 
           {/* Search and Quick Actions */}
-          <SearchAndQuickActions />
+          <GlobalSearchAndQuickActions />
 
           {/* Backup and Restore */}
           <BackupRestore />
@@ -108,3 +87,5 @@ export const App: React.FC = () => {
     </div>
   )
 }
+
+export default App

@@ -2,7 +2,8 @@ import { Order } from '../lib/database'
 import { OrderLineItem } from '../lib/database'
 import { Product } from '../lib/database'
 import { Client } from '../lib/database'
-import { demoProducts, demoClients } from './'
+import { demoProducts } from './demo-products'
+import { demoClients } from './demo-clients'
 
 export const demoOrders: Order[] = [
   {

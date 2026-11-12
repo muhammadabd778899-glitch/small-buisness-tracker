@@ -273,7 +273,7 @@ export const PaymentsAndRefunds: React.FC = () => {
       <div className="bg-[var(--card)] rounded-lg p-6 border border-[var(--border)] mb-8">
         <h3 className="text-sm font-medium text-[var(--muted)] mb-4">Record Refund</h3>
         
-        {showRefundForm && (
+        {showRefundForm ? (
           <div>
             <p className="text-sm text-[var(--muted)] mb-2">
               Refund for invoice: {refundForm.invoiceId}

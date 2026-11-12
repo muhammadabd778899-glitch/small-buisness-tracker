@@ -2,7 +2,8 @@ import { Invoice } from '../lib/database'
 import { InvoiceLineItem } from '../lib/database'
 import { Product } from '../lib/database'
 import { Client } from '../lib/database'
-import { demoClients, demoProducts } from './'
+import { demoClients } from './demo-clients'
+import { demoProducts } from './demo-products'
 
 export const demoInvoices: Invoice[] = [
   {

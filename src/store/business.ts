@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { create } from 'zustand'
 import { db } from '../lib/database'
 import { 
   BusinessSettings, 
@@ -204,7 +204,7 @@ interface BusinessState {
   resetBusiness: () => Promise<void>
 }
 
-const useBusinessStore = create<BusinessState>((set, get) => ({
+export const useBusinessStore = create<BusinessState>((set, get) => ({
   // Initial state - load from IndexedDB on first load
   businessSettings: null,
   accounts: [],
@@ -918,5 +918,4 @@ const useBusinessStore = create<BusinessState>((set, get) => ({
     await db.activityLogs.clear()
   },
 }))
-
-export default useBusinessStore
+

@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useBusinessStore } from '../store/business'
-import { useNavigate } from 'react-router-dom'
 import { Bill } from '../lib/database'
 
 export const BillTrackerCalendar: React.FC = () => {
-  const navigate = useNavigate()
   const { isDemo, businessData, bills, addBill, updateBill, removeBill } = useBusinessStore()
-  const { isLoaded } = useBusinessStore()
 
   // Form state
   const [form, setForm] = useState<Partial<Bill>>({
@@ -14,10 +11,10 @@ export const BillTrackerCalendar: React.FC = () => {
     category: 'Operating',
     amount: 0,
     dueDate: new Date(),
-    frequency: 'one-time' as 'one-time' | 'weekly' | 'monthly' | 'quarterly' | 'yearly',
+    frequency: 'one-time',
     accountId: '',
-    status: 'pending' as 'pending' | 'paid' | 'overdue',
-    paidDate: null as Date | null,
+    status: 'pending',
+    paidDate: null,
     notes: ''
   })
 
@@ -30,12 +27,7 @@ export const BillTrackerCalendar: React.FC = () => {
 
   const handleShowForm = (id?: string, bill?: Bill) => {
     if (id && bill) {
-      setForm({
-        ...bill,
-        dueDate: new Date(bill.dueDate),
-        paidDate: bill.paidDate ? new Date(bill.paidDate) : null,
-        frequency: bill.frequency
-      })
+      setForm({ ...bill })
       setEditingId(id)
     } else {
       setForm({
@@ -117,22 +109,26 @@ export const BillTrackerCalendar: React.FC = () => {
       {/* Bills List */}
       <div className="bg-[var(--card)] rounded-lg p-6 border border-[var(--border)] mb-8">
         <h3 className="text-sm font-medium text-[var(--muted)] mb-4">Bills Overview</h3>
-        
+
         {/* Bills status breakdown */}
         <div className="grid grid-cols-3 gap-3 mb-4">
-          ['pending', 'paid', 'overdue'].forEach(status => {
+          {['pending', 'paid', 'overdue'].map((status) => {
             const count = bills.filter(b => b.status === status).length
             if (count > 0) {
               const bgClass = status === 'paid' ? 'bg-[var(--success)]' : status === 'overdue' ? 'bg-[var(--danger)]' : 'bg-[var(--warning)]'
               const textClass = status === 'paid' ? 'text-[var(--success)]' : status === 'overdue' ? 'text-[var(--danger)]' : 'text-[var(--warning)]'
-              ;(document.getElementById(`bill-${status}`) as HTMLElement | null)?.innerHTML = `
-                <div id="bill-${status}" className="p-2 rounded ${bgClass}">
-                  <span className="text-${textClass} font-medium">${status}: ${count}</span>
-                </div>
-              `
+              const el = document.getElementById(`bill-${status}`)
+              if (el) {
+                el.innerHTML = `
+                  <div id="bill-${status}" className="p-2 rounded">
+                    <span className="${textClass} font-medium">${status}: ${count}</span>
+                  </div>
+                `
+              }
             }
-          })
-        }
+            return null
+          })}
+        </div>
       </div>
 
       {/* Add/Edit Bill Form */}
@@ -146,7 +142,7 @@ export const BillTrackerCalendar: React.FC = () => {
             <div>
               <label className="block text-sm text-[var(--muted)] mb-1">Bill Name</label>
               <input
-                value={form.name}
+                value={form.name || ''}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
               />
@@ -158,8 +154,8 @@ export const BillTrackerCalendar: React.FC = () => {
                 <input
                   type="number"
                   step="0.01"
-                  value={form.amount}
-                  onChange={(e) => setForm({ ...form, amount: Number(e.target.value )})}
+                  value={form.amount || 0}
+                  onChange={(e) => setForm({ ...form, amount: Number(e.target.value) })}
                   className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
                 />
               </div>
@@ -167,7 +163,8 @@ export const BillTrackerCalendar: React.FC = () => {
                 <label className="block text-sm text-[var(--muted)] mb-1">Due Date</label>
                 <input
                   type="date"
-                  value={form.dueDate.toISOString().split('T')[0]}
+                  value={form.dueDate ? new Date(form.dueDate).toISOString().split('T')[0] : ''}
+                  onChange={(e) => setForm({ ...form, dueDate: e.target.value ? new Date(e.target.value) : new Date() })}
                   className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
                 />
               </div>
@@ -176,7 +173,7 @@ export const BillTrackerCalendar: React.FC = () => {
             <div>
               <label className="block text-sm text-[var(--muted)] mb-1">Category</label>
               <select
-                value={form.category}
+                value={form.category || 'Operating'}
                 onChange={(e) => setForm({ ...form, category: e.target.value })}
                 className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
               >
@@ -194,8 +191,8 @@ export const BillTrackerCalendar: React.FC = () => {
               <div>
                 <label className="block text-sm text-[var(--muted)] mb-1">Frequency</label>
                 <select
-                  value={form.frequency}
-                  onChange={(e) => setForm({ ...form, frequency: e.target.value as any })}
+                  value={form.frequency || 'one-time'}
+                  onChange={(e) => setForm({ ...form, frequency: e.target.value as Bill['frequency'] })}
                   className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
                 >
                   <option value="one-time">One-Time</option>
@@ -208,7 +205,7 @@ export const BillTrackerCalendar: React.FC = () => {
               <div>
                 <label className="block text-sm text-[var(--muted)] mb-1">Account</label>
                 <select
-                  value={form.accountId}
+                  value={form.accountId || ''}
                   onChange={(e) => setForm({ ...form, accountId: e.target.value })}
                   className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
                 >
@@ -220,8 +217,8 @@ export const BillTrackerCalendar: React.FC = () => {
             <div>
               <label className="block text-sm text-[var(--muted)] mb-1">Status</label>
               <select
-                value={form.status}
-                onChange={(e) => setForm({ ...form, status: e.target.value })}
+                value={form.status || 'pending'}
+                onChange={(e) => setForm({ ...form, status: e.target.value as Bill['status'] })}
                 className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
               >
                 <option value="pending">Pending</option>
@@ -234,7 +231,7 @@ export const BillTrackerCalendar: React.FC = () => {
               <label className="block text-sm text-[var(--muted)] mb-1">Paid Date</label>
               <input
                 type="date"
-                value={form.paidDate?.toISOString().split('T')[0] || ''}
+                value={form.paidDate ? new Date(form.paidDate).toISOString().split('T')[0] : ''}
                 onChange={(e) => setForm({ ...form, paidDate: e.target.value ? new Date(e.target.value) : null })}
                 className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
               />
@@ -287,7 +284,7 @@ export const BillTrackerCalendar: React.FC = () => {
         <div className="bg-[var(--card)] rounded-lg p-4 border border-[var(--border)]">
           <p className="text-sm text-[var(--muted)]">Total</p>
           <p className="text-2xl font-bold">
-            {bills.reduce((sum, b) => sum + b.amount, 0).toLocaleString()}
+            {bills.reduce((sum, b) => sum + (b.amount || 0), 0).toLocaleString()}
           </p>
         </div>
       </div>

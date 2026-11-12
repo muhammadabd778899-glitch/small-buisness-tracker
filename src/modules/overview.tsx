@@ -76,8 +76,8 @@ export const Overview: React.FC = () => {
               <YAxis stroke="#848484" />
               <Tooltip />
               <Legend />
-              <Bar dataKey="revenue" name="Revenue" fill={var(--accent)} />
-              <Bar dataKey="expenses" name="Expenses" fill={var(--danger)} />
+              <Bar dataKey="revenue" name="Revenue" fill="var(--accent)" />
+              <Bar dataKey="expenses" name="Expenses" fill="var(--danger)" />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -94,7 +94,7 @@ export const Overview: React.FC = () => {
                 <LegendItem cursor="#848484" />
               </Legend>
               <Area dataKey="profit" fill="var(--accent)" />
-              <Line dataKey="profit" stroke={var(--accent)} strokeWidth={2} />
+              <Line dataKey="profit" stroke="var(--accent)" strokeWidth={2} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -133,7 +133,7 @@ export const Overview: React.FC = () => {
               <YAxis stroke="#848484" />
               <Tooltip />
               <Legend />
-              <Bar dataKey="sales" name="Sales" fill={var(--accent)} />
+              <Bar dataKey="sales" name="Sales" fill="var(--accent)" />
             </BarChart>
           </ResponsiveContainer>
         </div>

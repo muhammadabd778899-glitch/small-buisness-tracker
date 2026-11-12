@@ -183,16 +183,19 @@ export const OrderManagement: React.FC = () => {
         <h3 className="text-sm font-medium text-[var(--muted)] mb-4">Orders Overview</h3>
         
         <div className="grid grid-cols-3 gap-3 mb-4">
-          ['draft', 'confirmed', 'in-progress', 'ready', 'completed', 'cancelled'].forEach(status => {
+          {['draft', 'confirmed', 'in-progress', 'ready', 'completed', 'cancelled'].forEach(status => {
             const count = orders.filter(o => o.status === status).length
             if (count > 0) {
               const bgClass = status === 'completed' ? 'bg-[var(--success)]' : status === 'cancelled' ? 'bg-[var(--danger)]' : 'bg-[var(--accent)]'
               const textClass = status === 'completed' ? 'text-[var(--success)]' : status === 'cancelled' ? 'text-[var(--danger)]' : 'text-[var(--accent)]'
-              ;(document.getElementById(`order-${status}`) as HTMLElement | null)?.innerHTML = `
-                <div id="order-${status}" className="p-2 rounded ${bgClass}">
-                  <span className="text-${textClass} font-medium">${status}: ${count}</span>
-                </div>
-              `
+              const el = document.getElementById(`order-${status}`)
+              if (el) {
+                el.innerHTML = `
+                  <div id="order-${status}" className="p-2 rounded ${bgClass}>
+                    <span className="text-${textClass} font-medium">${status}: ${count}</span>
+                  </div>
+                `
+              }
             }
           })
         }
@@ -218,7 +221,7 @@ export const OrderManagement: React.FC = () => {
                   <option key={c.id} value={c.id}>
                     {c.name}
                   </option>
-                ) : (
+                )) : (
                   '<option value="">Select Client</option>'
                 )}
               </select>
@@ -302,7 +305,7 @@ export const OrderManagement: React.FC = () => {
                             <option key={p.id} value={p.id}>
                               {p.name} (${p.sellingPrice.toFixed(2)})
                             </option>
-                          ) : (
+                          )) : (
                             '<option value="">Select Product</option>'
                           )}
                         </select>
@@ -412,6 +415,7 @@ export const OrderManagement: React.FC = () => {
           </form>
         </div>
       )}
+    </div>
     </div>
   )
 }
