@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container } from './components/ui/layout'
 import { Navigation } from './components/ui/navigation'
-import { Route, Routes, useRoutes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { Overview } from './modules/overview'
 import { Finance } from './modules/finance'
 import { Sales } from './modules/sales'
@@ -32,16 +32,7 @@ export const App: React.FC = () => {
     }
   }, [isDemo, businessData?.businessName])
 
-  // Define routes
-  const routes = useRoutes([
-    { path: '/', element: <Overview /> },
-    { path: '/finance', element: <Finance /> },
-    { path: '/sales', element: <Sales /> },
-    { path: '/products', element: <Products /> },
-    { path: '/clients', element: <Clients /> },
-    { path: '/planning', element: <Planning /> },
-    { path: '/reports', element: <Reports /> },
-  ])
+ 
 
   return (
     <div className="min-h-screen bg-[var(--bg)] text-[var(--fg)]">
