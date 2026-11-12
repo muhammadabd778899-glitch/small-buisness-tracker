@@ -71,7 +71,7 @@ The published GitHub Pages site was not serving a verified production build of t
 - `.nojekyll` so GitHub Pages does not process the asset folders,
 - correct manifest and icon references for the installed app.
 
-The production build has been served and exercised locally. Publishing requires pushing these changes and setting **Settings → Pages → Source → GitHub Actions**; after that the workflow deploys automatically. The live GitHub URL cannot be validated until that push occurs.
+The production build was pushed and the *Deploy to GitHub Pages* workflow completed successfully (run 43261605120). The live URL then served the new bundle, rendered the welcome screen without console errors, returned 200 for the manifest and icons, and opened the deep link `/reports` through the SPA fallback. The blank-page issue is resolved on the live site.
 
 ## Known warnings and limitations
 
@@ -79,8 +79,9 @@ The production build has been served and exercised locally. Publishing requires 
 - **Lint:** 29 advisory React-hook warnings, mostly state initialization inside effects. There are no lint errors, and the affected flows were verified in the browser.
 - **Single-tab editing:** there is no cross-tab synchronization. Reload other tabs after editing in one.
 - **Local-only storage:** clearing browser data removes records; JSON backups are the safety copy and are not encrypted.
-- **Deployment:** the new workflow and Pages settings must be applied on the remote repository before the public URL reflects this build.
 
 ## Conclusion
+
+The live site at <https://muhammadabd778899-glitch.github.io/small-buisness-tracker/> was verified after deployment: the app shell renders, the Reports deep link loads and the browser console is clean.
 
 All specified functional areas are implemented and exercised: offline storage, demo isolation, CRUD across every module, quote/order/invoice/payment/refund flow, inventory ledger, clients, planning, 12 reports, search/quick add, PDFs, CSV import/export, backup/restore, reset guards, PWA installation and true offline reload. Automated checks are green and the production bundle is ready to publish.
