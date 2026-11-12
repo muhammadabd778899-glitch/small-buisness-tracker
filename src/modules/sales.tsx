@@ -232,8 +232,8 @@ export const Sales: React.FC = () => {
                   value={form.unitPrice}
                   onChange={(e) => setForm({ ...form, unitPrice: Number(e.target.value )})}
                   className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
-              />
-            </div>
+                />
+              </div>
             </div>
 
             <div>
@@ -300,8 +300,8 @@ export const Sales: React.FC = () => {
               >
                 {editingId ? 'Update' : 'Record Sale'}
               </button>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       )}
 

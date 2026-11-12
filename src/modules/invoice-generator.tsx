@@ -243,7 +243,7 @@ export const InvoiceGenerator: React.FC = () => {
       item.quantity.toString(),
       `${currencySymbol}${item.unitPrice.toFixed(2)}`,
       `${currencySymbol}${item.totalPrice.toFixed(2)}`
-    ]]) || []
+    ]) || []
     
     // Add totals row
     rows.push([ 'Total', '', `${currencySymbol}${invoice.subtotal.toFixed(2)}`, `${currencySymbol}${invoice.total.toFixed(2)}` ])
