@@ -1,26 +1,50 @@
 import React, { useEffect, useState } from 'react'
 import { useBusinessStore } from '../store/business'
 import { useNavigate } from 'react-router-dom'
-import { Product, Client, Order, OrderLineItem } from '../lib/database'
 
 export const OrderManagement: React.FC = () => {
   const navigate = useNavigate()
-  const { isDemo, businessData, products, clients, orders, orderItems, addOrder, updateOrder, removeOrder, addOrderItem, updateOrderItem, removeOrderItem } = useBusinessStore()
+  const { isDemo, businessData, orders, addOrder, removeOrder, updateOrder } = useBusinessStore()
   const { isLoaded } = useBusinessStore()
 
-  // Order form state
-  const [form, setForm] = useState<Partial<Order>>({
-    clientId: null,
-    orderDate: new Date(),
-    dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // 14 days
-    status: 'draft' as 'draft' | 'confirmed' | 'in-progress' | 'ready' | 'completed' | 'cancelled',
-    lineItems: [],
+  // Form state
+  const [form, setForm] = useState<Partial<{
+    id: string
+    clientId: string
+    clientName: string
+    clientCompany: string
+    date: Date
+    dueDate: Date
+    items: Array<{
+      description: string
+      quantity: number
+      unitPrice: number
+      total: number
+    }>
+    subtotal: number
+    taxAmount: number
+    total: number
+    status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled'
+    paymentMethod: string
+    notes: string
+    createdAt: Date
+    updatedAt: Date
+  }>>({
+    id: '',
+    clientId: '',
+    clientName: '',
+    clientCompany: '',
+    date: new Date(),
+    dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    items: [],
     subtotal: 0,
     taxAmount: 0,
     total: 0,
-    discount: 0,
-    paymentStatus: 'pending' as 'pending' | 'partial' | 'paid',
-    notes: ''
+    status: 'pending',
+    paymentMethod: 'bank-transfer',
+    notes: '',
+    createdAt: new Date(),
+    updatedAt: new Date()
   })
 
   const [showForm, setShowForm] = useState(false)
@@ -28,42 +52,45 @@ export const OrderManagement: React.FC = () => {
 
   useEffect(() => {
     // Orders already in store
-  }, [orders, orderItems])
+  }, [orders])
 
-  const handleShowForm = (id?: string, order?: Order) => {
+  const handleShowForm = (id?: string, order?: any) => {
     if (id && order) {
-      // Calculate totals from existing line items
-      const lineTotal = order.lineItems?.reduce((sum: number, item: any) => sum + item.totalPrice, 0) || 0
-      const taxRate = businessData?.defaultTaxRate / 100 || 0.08
-      const tax = lineTotal * taxRate
-      const total = lineTotal + tax
-      
       setForm({
-        ...order,
-        orderDate: new Date(order.orderDate),
+        id: order.id,
+        clientId: order.clientId,
+        clientName: order.clientName,
+        clientCompany: order.clientCompany,
+        date: new Date(order.date),
         dueDate: new Date(order.dueDate),
-        lineItems: order.lineItems || [],
-        status: order.status,
-        subtotal: lineTotal,
-        taxAmount: tax,
-        total: total,
-        discount: order.discount || 0,
-        paymentStatus: order.paymentStatus
+        items: order.items || [],
+        subtotal: order.subtotal || 0,
+        taxAmount: order.taxAmount || 0,
+        total: order.total || 0,
+        status: order.status || 'pending',
+        paymentMethod: order.paymentMethod || 'bank-transfer',
+        notes: order.notes || '',
+        createdAt: order.createdAt ? new Date(order.createdAt) : new Date(),
+        updatedAt: order.updatedAt ? new Date(order.updatedAt) : new Date()
       })
       setEditingId(id)
     } else {
       setForm({
-        clientId: null,
-        orderDate: new Date(),
-        dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
-        status: 'draft',
-        lineItems: [],
+        id: '',
+        clientId: '',
+        clientName: '',
+        clientCompany: '',
+        date: new Date(),
+        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        items: [],
         subtotal: 0,
         taxAmount: 0,
         total: 0,
-        discount: 0,
-        paymentStatus: 'pending',
-        notes: ''
+        status: 'pending',
+        paymentMethod: 'bank-transfer',
+        notes: '',
+        createdAt: new Date(),
+        updatedAt: new Date()
       })
       setEditingId(null)
     }
@@ -72,97 +99,99 @@ export const OrderManagement: React.FC = () => {
 
   const handleHideForm = () => {
     setShowForm(false)
+    setEditingId(null)
     setForm({
-      clientId: null,
-      orderDate: new Date(),
-      dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
-      status: 'draft',
-      lineItems: [],
+      id: '',
+      clientId: '',
+      clientName: '',
+      clientCompany: '',
+      date: new Date(),
+      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      items: [],
       subtotal: 0,
       taxAmount: 0,
       total: 0,
-      discount: 0,
-      paymentStatus: 'pending',
-      notes: ''
+      status: 'pending',
+      paymentMethod: 'bank-transfer',
+      notes: '',
+      createdAt: new Date(),
+      updatedAt: new Date()
     })
-    setEditingId(null)
   }
 
-  const calculateTotals = (lineItems: any[]) => {
-    const subtotal = lineItems.reduce((sum: number, item: any) => sum + item.totalPrice, 0)
-    const taxRate = form.defaultTaxRate / 100 || 0.08
-    const taxAmount = subtotal * taxRate
-    const total = subtotal + taxAmount
-    
-    setForm(prev => ({ ...prev, subtotal, taxAmount, total }))
-  }
-
-  const addLineItem = () => {
-    // Find product or create empty line item
-    const newItem: OrderLineItem = {
-      id: `oli-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      orderId: editingId || '',
-      productId: null,
-      materialId: null,
+  const handleAddItem = () => {
+    const newItem = {
+      description: '',
       quantity: 1,
       unitPrice: 0,
-      discount: 0,
-      taxRate: 0.08,
-      totalPrice: 0
+      total: 0
     }
-    
-    setForm(prev => {
-      const newItems = [...prev.lineItems, newItem]
-      calculateTotals(newItems)
-      return { ...prev, lineItems: newItems }
+    setForm({
+      ...form,
+      items: [...form.items, newItem]
     })
   }
 
-  const removeLineItem = (itemId: string) => {
-    setForm(prev => ({
-      ...prev,
-      lineItems: prev.lineItems.filter((item: any) => item.id !== itemId),
-      subtotal: 0,
-      taxAmount: 0,
-      total: 0
-    }))
-    // Recalculate
-    calculateTotals(prev.lineItems.filter((item: any) => item.id !== itemId).map((item: any) => item))
+  const handleRemoveItem = (index: number) => {
+    const newItems = [...form.items]
+    newItems.splice(index, 1)
+    setForm({ ...form, items: newItems })
+  }
+
+  const handleItemChange = (index: number, field: keyof typeof newItem, value: any) => {
+    const newItems = [...form.items]
+    newItems[index] = { ...newItems[index], [field]: value }
+    setForm({ ...form, items: newItems })
+  }
+
+  const handleCalculate = () => {
+    const subtotal = form.items.reduce((sum, item) => sum + item.total, 0)
+    const taxAmount = subtotal * 0.13
+    const total = subtotal + taxAmount
+
+    setForm({
+      ...form,
+      subtotal,
+      taxAmount,
+      total
+    })
   }
 
   const handleSave = async () => {
     try {
-      const orderData: Order = {
-        ...form,
-        id: editingId || `order-${Date.now()}`,
+      const orderData: any = {
+        id: form.id || `order-${Date.now()}`,
         clientId: form.clientId,
-        orderDate: form.orderDate,
+        clientName: form.clientName,
+        clientCompany: form.clientCompany,
+        date: form.date,
         dueDate: form.dueDate,
-        status: form.status,
-        lineItems: form.lineItems,
+        items: form.items,
         subtotal: form.subtotal,
         taxAmount: form.taxAmount,
         total: form.total,
-        discount: form.discount,
-        paymentStatus: form.paymentStatus,
+        status: form.status,
+        paymentMethod: form.paymentMethod,
         notes: form.notes,
-        createdAt: new Date(),
+        createdAt: form.updatedAt,
         updatedAt: new Date()
       }
 
       if (editingId) {
         await updateOrder(editingId, {
           clientId: form.clientId,
-          orderDate: form.orderDate,
+          clientName: form.clientName,
+          clientCompany: form.clientCompany,
+          date: form.date,
           dueDate: form.dueDate,
-          status: form.status,
-          lineItems: form.lineItems,
+          items: form.items,
           subtotal: form.subtotal,
           taxAmount: form.taxAmount,
           total: form.total,
-          discount: form.discount,
-          paymentStatus: form.paymentStatus,
-          notes: form.notes
+          status: form.status,
+          paymentMethod: form.paymentMethod,
+          notes: form.notes,
+          updatedAt: new Date()
         })
       } else {
         await addOrder(orderData)
@@ -178,58 +207,66 @@ export const OrderManagement: React.FC = () => {
     <div className="pt-8">
       <h2 className="text-2xl font-bold mb-6">Order Management</h2>
 
-      {/* Orders Summary */}
-      <div className="bg-[var(--card)] rounded-lg p-6 border border-[var(--border)] mb-8">
-        <h3 className="text-sm font-medium text-[var(--muted)] mb-4">Orders Overview</h3>
-        
-        <div className="grid grid-cols-3 gap-3 mb-4">
-          ['draft', 'confirmed', 'in-progress', 'ready', 'completed', 'cancelled'].forEach(status => {
-            const count = orders.filter(o => o.status === status).length
-            if (count > 0) {
-              const bgClass = status === 'completed' ? 'bg-[var(--success)]' : status === 'cancelled' ? 'bg-[var(--danger)]' : 'bg-[var(--accent)]'
-              const textClass = status === 'completed' ? 'text-[var(--success)]' : status === 'cancelled' ? 'text-[var(--danger)]' : 'text-[var(--accent)]'
-              ;(document.getElementById(`order-${status}`) as HTMLElement | null)?.innerHTML = `
-                <div id="order-${status}" className="p-2 rounded ${bgClass}">
-                  <span className="text-${textClass} font-medium">${status}: ${count}</span>
-                </div>
-              `
-            }
-          })
-        }
+      {/* Order Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="bg-[var(--card)] rounded-lg p-4 border border-[var(--border)]">
+          <h4 className="text-sm font-medium text-[var(--muted)] mb-2">Total Orders</h4>
+          <p className="text-2xl font-bold">{orders.length}</p>
+        </div>
+        <div className="bg-[var(--card)] rounded-lg p-4 border border-[var(--border)]">
+          <h4 className="text-sm font-medium text-[var(--muted)] mb-2">Total Sales</h4>
+          <p className="text-2xl font-bold text-[var(--success)]">
+            ${orders.reduce((sum, ord) => sum + ord.total, 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </p>
+        </div>
+        <div className="bg-[var(--card)] rounded-lg p-4 border border-[var(--border)]">
+          <h4 className="text-sm font-medium text-[var(--muted)] mb-2">Processing</h4>
+          <p className="text-2xl font-bold text-[var(--warning)]">
+            {orders.filter(o => o.status === 'processing').length}
+          </p>
+        </div>
+        <div className="bg-[var(--card)] rounded-lg p-4 border border-[var(--border)]">
+          <h4 className="text-sm font-medium text-[var(--muted)] mb-2">Delivered</h4>
+          <p className="text-2xl font-bold text-[var(--success)]">
+            {orders.filter(o => o.status === 'delivered').length}
+          </p>
+        </div>
       </div>
 
-      {/* Add Order Form */}
+      {/* New Order Form */}
       {showForm && (
-        <div className="bg-[var(--card)] rounded-lg p-6 border border-[var(--border)] max-w-2xl mx-auto">
+        <div className="bg-[var(--card)] rounded-lg p-6 border border-[var(--border)] max-w-3xl mx-auto mb-8">
           <h3 className={editingId ? 'text-sm font-medium text-[var(--dark)] mb-3' : 'text-sm font-medium text-[var(--muted)] mb-3'}>
             {editingId ? 'Edit Order' : 'Create New Order'}
           </h3>
 
           <form className="space-y-4">
-            <div>
-              <label className="block text-sm text-[var(--muted)] mb-1">Client</label>
-              <select
-                value={form.clientId ? form.clientId : ''}
-                onChange={(e) => setForm({ ...form, clientId: e.target.value === '' ? null : e.target.value })}
-                className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
-              >
-                <option value="">Select Client</option>
-                {isDemo ? clients.map((c: any) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
-                  </option>
-                ) : (
-                  '<option value="">Select Client</option>'
-                )}
-              </select>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm text-[var(--muted)] mb-1">Client ID</label>
+                <input
+                  value={form.clientId}
+                  onChange={(e) => setForm({ ...form, clientId: e.target.value })}
+                  className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-[var(--muted)] mb-1">Client Name</label>
+                <input
+                  value={form.clientName}
+                  onChange={(e) => setForm({ ...form, clientName: e.target.value })}
+                  className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
+                />
+              </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm text-[var(--muted)] mb-1">Order Date</label>
+                <label className="block text-sm text-[var(--muted)] mb-1">Date</label>
                 <input
                   type="date"
-                  value={form.orderDate.toISOString().split('T')[0]}
+                  value={form.date.toISOString().split('T')[0]}
+                  onChange={(e) => setForm({ ...form, date: new Date(e.target.value) })}
                   className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
                 />
               </div>
@@ -238,6 +275,7 @@ export const OrderManagement: React.FC = () => {
                 <input
                   type="date"
                   value={form.dueDate.toISOString().split('T')[0]}
+                  onChange={(e) => setForm({ ...form, dueDate: new Date(e.target.value) })}
                   className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
                 />
               </div>
@@ -250,168 +288,108 @@ export const OrderManagement: React.FC = () => {
                 onChange={(e) => setForm({ ...form, status: e.target.value })}
                 className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
               >
-                <option value="draft">Draft</option>
-                <option value="confirmed">Confirmed</option>
-                <option value="in-progress">In Progress</option>
-                <option value="ready">Ready</option>
-                <option value="completed">Completed</option>
+                <option value="pending">Pending</option>
+                <option value="processing">Processing</option>
+                <option value="shipped">Shipped</option>
+                <option value="delivered">Delivered</option>
                 <option value="cancelled">Cancelled</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-sm text-[var(--muted)] mb-1">Discount %</label>
-              <input
-                type="number"
-                step="0.1"
-                value={form.discount}
-                onChange={(e) => setForm({ ...form, discount: Number(e.target.value )})}
+              <label className="block text-sm text-[var(--muted)] mb-1">Payment Method</label>
+              <select
+                value={form.paymentMethod}
+                onChange={(e) => setForm({ ...form, paymentMethod: e.target.value })}
                 className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)]"
-              />
-            </div>
-
-            {/* Line Items Table */}
-            <div className="mt-4 overflow-x-auto">
-              <table className="min-w-full divide-y divide-[var(--border)]">
-                <thead>
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-[var(--muted)]">Product</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-[var(--muted)]">Qty</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-[var(--muted)]">Unit Price</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-[var(--muted)]">Discount %</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-[var(--muted)]">Total</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-[var(--muted)]">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {form.lineItems.map((item: any, index: number) => (
-                    <tr key={item.id} className="hover:bg-[var(--soft-bg)]">
-                      <td className="px-6 py-4">
-                        <select
-                          value={item.productId || ''}
-                          onChange={(e) => {
-                            const newItems = [...form.lineItems]
-                            newItems[index] = { ...newItems[index], productId: e.target.value }
-                            calculateTotals(newItems)
-                            setForm(prev => ({ ...prev, lineItems: newItems }))
-                          }}
-                          className="w-full py-1 rounded border px-2 text-sm"
-                        >
-                          <option value="">Select Product</option>
-                          {isDemo ? products.map((p: any) => (
-                            <option key={p.id} value={p.id}>
-                              {p.name} (${p.sellingPrice.toFixed(2)})
-                            </option>
-                          ) : (
-                            '<option value="">Select Product</option>'
-                          )}
-                        </select>
-                      </td>
-                      <td className="px-6 py-4">
-                        <input
-                          type="number"
-                          step="1"
-                          value={item.quantity}
-                          onChange={(e) => {
-                            const newItems = [...form.lineItems]
-                            newItems[index] = { ...newItems[index], quantity: Number(e.target.value )}
-                            calculateTotals(newItems)
-                            setForm(prev => ({ ...prev, lineItems: newItems }))
-                          }}
-                          className="w-full py-1 rounded border px-2 text-sm"
-                        />
-                      </td>
-                      <td className="px-6 py-4">
-                        <input
-                          type="number"
-                          step="0.01"
-                          value={item.unitPrice}
-                          onChange={(e) => {
-                            const newItems = [...form.lineItems]
-                            newItems[index] = { ...newItems[index], unitPrice: Number(e.target.value )}
-                            calculateTotals(newItems)
-                            setForm(prev => ({ ...prev, lineItems: newItems }))
-                          }}
-                          className="w-full py-1 rounded border px-2 text-sm"
-                        />
-                      </td>
-                      <td className="px-6 py-4">
-                        <input
-                          type="number"
-                          step="0.1"
-                          value={item.discount}
-                          onChange={(e) => {
-                            const newItems = [...form.lineItems]
-                            newItems[index] = { ...newItems[index], discount: Number(e.target.value )}
-                            calculateTotals(newItems)
-                            setForm(prev => ({ ...prev, lineItems: newItems }))
-                          }}
-                          className="w-full py-1 rounded border px-2 text-sm"
-                        />
-                      </td>
-                      <td className="px-6 py-4">
-                        {item.totalPrice.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-                      </td>
-                      <td className="px-6 py-4">
-                        <button
-                          onClick={() => removeLineItem(item.id)}
-                          className="text-[var(--danger)] text-sm hover:underline"
-                        >
-                          Remove
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                  <tr>
-                    <td colSpan="6">
-                      <button
-                        onClick={addLineItem}
-                        className="text-[var(--accent)] text-sm hover:underline"
-                      >
-                        + Add Line Item
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            {/* Totals */}
-            <div className="mt-6 grid grid-cols-2 gap-2">
-              <div>
-                <p className="text-sm text-[var(--muted)]">Subtotal</p>
-                <p className="text-lg font-bold">{form.subtotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
-              </div>
-              <div>
-                <p className="text-sm text-[var(--muted)]">Tax</p>
-                <p className="text-lg font-bold text-[var(--success)]">{form.taxAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
-              </div>
-            </div>
-
-            <div className="mt-3 flex justify-between">
-              <p className="text-lg font-bold">Total</p>
-              <p className="text-lg font-bold text-[var(--accent)]">{form.total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
-            </div>
-
-            <div className="mt-3 flex justify-end gap-3">
-              <button
-                type="button"
-                onClick={handleHideForm}
-                className="px-4 py-2 rounded text-sm text-[var(--fg)] hover:bg-[var(--soft-bg)] transition-colors"
               >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleSave}
-                className="px-4 py-2 rounded bg-[var(--accent)] text-white text-sm hover:bg-[var(--deeporange)] transition-colors"
-              >
-                {editingId ? 'Update Order' : 'Create Order'}
-              </button>
+                <option value="bank-transfer">Bank Transfer</option>
+                <option value="credit-card">Credit Card</option>
+                <option value="cash">Cash</option>
+                <option value="check">Check</option>
+                <option value="stripe">Stripe</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm text-[var(--muted)] mb-1">Notes</label>
+              <textarea
+                value={form.notes}
+                onChange={(e) => setForm({ ...form, notes: e.target.value })}
+                className="w-full py-2 rounded border bg-[var(--soft-bg)] text-[var(--fg)] h-24 resize-none"
+                rows={3}
+              ></textarea>
+            </div>
+
+            {/* Items Table */}
+            <div>
+              <label className="block text-sm text-[var(--muted)] mb-3">Order Items</label>
+              <div className="bg-[var(--background)] rounded-lg p-4 mb-4">
+                <div className="grid grid-cols-4 gap-2 mb-3" style={{borderBottom: '1px solid var(--border)'}}>
+                  <div>Description</div>
+                  <div className="text-sm text-[var(--muted)]">Qty</div>
+                  <div className="text-sm text-[var(--muted)]">Price</div>
+                  <div className="text-sm text-[var(--muted)]">Total</div>
+                </div>
+                {form.items.map((item, idx) => (
+                  <div key={idx} className="grid grid-cols-4 gap-2 p-2 border-t border-[var(--border)]">
+                    <input
+                      value={item.description}
+                      onChange={(e) => handleItemChange(idx, 'description', e.target.value)}
+                      className="w-full py-1 rounded bg-[var(--soft-bg)] text-[var(--fg)]"
+                    />
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={item.quantity}
+                      onChange={(e) => handleItemChange(idx, 'quantity', Number(e.target.value ))}
+                      className="w-full py-1 rounded bg-[var(--soft-bg)] text-[var(--fg)]"
+                    />
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={item.unitPrice}
+                      onChange={(e) => handleItemChange(idx, 'unitPrice', Number(e.target.value ))}
+                      className="w-full py-1 rounded bg-[var(--soft-bg)] text-[var(--fg)]"
+                    />
+                    <span className="w-full py-1 rounded bg-[var(--soft-bg)] text-[var(--fg)]" onClick={() => handleRemoveItem(idx)}>
+                      ✕
+                    </span>
+                  </div>
+                ))}
+                <button
+                  onClick={handleAddItem}
+                  className="col-span-4 py-1 rounded bg-[var(--accent)] text-white text-xs hover:bg-[var(--deeporange)] transition-colors mt-2"
+                >
+                  + Add Item
+                </button>
+              </div>
+
+              {/* Item totals summary */}
+              {form.items.length > 0 && (
+                <div className="mt-3 pt-3 border-t border-[var(--border)] flex justify-end gap-2">
+                  <span>Subtotal:</span>
+                  <span className="font-medium">${form.subtotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                  <span>Tax (13%):</span>
+                  <span className="font-medium text-[var(--success)]">${form.taxAmount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                  <span>Total:</span>
+                  <span className="font-bold text-[var(--danger)]">${form.total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                </div>
+              )}
             </div>
           </form>
         </div>
       )}
+
+      {/* Action buttons */}
+      <div className="mb-8">
+        <button
+          onClick={() => handleShowForm()}
+          className="px-4 py-2 rounded bg-[var(--accent)] text-white text-sm hover:bg-[var(--deeporange)] transition-colors"
+        >
+          + Create Order
+        </button>
+      </div>
     </div>
   )
 }
