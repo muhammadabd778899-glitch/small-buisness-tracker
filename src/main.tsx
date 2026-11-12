@@ -1,14 +1,18 @@
-
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import './index.css'
-import App from './App.tsx'
+import App from './App'
+import { ErrorBoundary } from './components/error-boundary'
+
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter basename="/small-buisness-tracker">
-      <App />
-    </BrowserRouter>
-  </StrictMode>,
+    <ErrorBoundary>
+      <BrowserRouter basename={basename}>
+        <App />
+      </BrowserRouter>
+    </ErrorBoundary>
+  </StrictMode>
 )
