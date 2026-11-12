@@ -1,0 +1,46 @@
+npm notice run small-business-manager@0.0.0 npx
+npm notice run vite build
+[36mvite v8.3.8 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 426 modules transformed.
+[33m[lightningcss minify] Unknown at rule: @tailwind
+1  |  @tailwind base;
+   |           ^
+2  |  @tailwind components;
+3  |  @tailwind utilities;[39m
+[33m[lightningcss minify] Unknown at rule: @tailwind
+1  |  @tailwind base;
+2  |  @tailwind components;
+   |           ^
+3  |  @tailwind utilities;
+4  |  [39m
+[33m[lightningcss minify] Unknown at rule: @tailwind
+1  |  @tailwind base;
+2  |  @tailwind components;
+3  |  @tailwind utilities;
+   |           ^
+4  |  
+5  |  /* Custom business styles */[39m
+rendering chunks...
+computing gzip size...
+dist/index.html                                0.54 kB │ gzip:   0.31 kB
+dist/assets/index-CztYvWrP.css                 0.25 kB │ gzip:   0.19 kB
+dist/assets/demo-bills-BvRk9kiK.js             0.00 kB │ gzip:   0.02 kB
+dist/assets/demo-budgets-BvRk9kiK.js           0.00 kB │ gzip:   0.02 kB
+dist/assets/demo-clients-BvRk9kiK.js           0.00 kB │ gzip:   0.02 kB
+dist/assets/demo-communications-BvRk9kiK.js    0.00 kB │ gzip:   0.02 kB
+dist/assets/demo-goals-BvRk9kiK.js             0.00 kB │ gzip:   0.02 kB
+dist/assets/demo-invoices-BvRk9kiK.js          0.00 kB │ gzip:   0.02 kB
+dist/assets/demo-orders-BvRk9kiK.js            0.00 kB │ gzip:   0.02 kB
+dist/assets/demo-payments-BvRk9kiK.js          0.00 kB │ gzip:   0.02 kB
+dist/assets/demo-products-BvRk9kiK.js          0.00 kB │ gzip:   0.02 kB
+dist/assets/demo-tasks-BvRk9kiK.js             0.00 kB │ gzip:   0.02 kB
+dist/assets/demo-transactions-BvRk9kiK.js      0.00 kB │ gzip:   0.02 kB
+dist/assets/index-xPH-rKVE.js                872.07 kB │ gzip: 249.36 kB
+
+[33m[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.[39m
+[32m✓ built in 639ms[39m
